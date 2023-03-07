@@ -10,7 +10,7 @@
 
 // spell-checker:ignore backport
 
-#[cfg(unix)]
+#[cfg(any(unix, target_os = "wasi"))]
 use libc::{
     mode_t, S_IFBLK, S_IFCHR, S_IFDIR, S_IFIFO, S_IFLNK, S_IFMT, S_IFREG, S_IFSOCK, S_IRGRP,
     S_IROTH, S_IRUSR, S_ISGID, S_ISUID, S_ISVTX, S_IWGRP, S_IWOTH, S_IWUSR, S_IXGRP, S_IXOTH,
@@ -25,8 +25,7 @@ use std::fs;
 use std::fs::read_dir;
 use std::hash::Hash;
 use std::io::{Error, ErrorKind, Result as IOResult};
-#[cfg(unix)]
-use std::os::unix::{fs::MetadataExt, io::AsRawFd};
+use std::os::fd::AsRawFd;
 use std::path::{Component, Path, PathBuf, MAIN_SEPARATOR};
 #[cfg(target_os = "windows")]
 use winapi_util::AsHandleRef;
@@ -41,13 +40,13 @@ macro_rules! has {
 
 /// Information to uniquely identify a file
 pub struct FileInformation(
-    #[cfg(unix)] nix::sys::stat::FileStat,
+    #[cfg(any(unix, target_os = "wasi"))] nix::sys::stat::FileStat,
     #[cfg(windows)] winapi_util::file::Information,
 );
 
 impl FileInformation {
     /// Get information from a currently open file
-    #[cfg(unix)]
+    #[cfg(any(unix, target_os = "wasi"))]
     pub fn from_file(file: &impl AsRawFd) -> IOResult<Self> {
         let stat = nix::sys::stat::fstat(file.as_raw_fd())?;
         Ok(Self(stat))
@@ -65,7 +64,7 @@ impl FileInformation {
     /// If `path` points to a symlink and `dereference` is true, information about
     /// the link's target will be returned.
     pub fn from_path(path: impl AsRef<Path>, dereference: bool) -> IOResult<Self> {
-        #[cfg(unix)]
+        #[cfg(any(unix, target_os = "wasi"))]
         {
             let stat = if dereference {
                 nix::sys::stat::stat(path.as_ref())
@@ -92,7 +91,7 @@ impl FileInformation {
     }
 
     pub fn file_size(&self) -> u64 {
-        #[cfg(unix)]
+        #[cfg(any(unix, target_os = "wasi"))]
         {
             assert!(self.0.st_size >= 0, "File size is negative");
             self.0.st_size.try_into().unwrap()
@@ -110,7 +109,7 @@ impl FileInformation {
 
     pub fn number_of_links(&self) -> u64 {
         #[cfg(all(
-            unix,
+            any(unix, target_os = "wasi"),
             not(target_vendor = "apple"),
             not(target_os = "android"),
             not(target_os = "freebsd"),
@@ -120,7 +119,7 @@ impl FileInformation {
         ))]
         return self.0.st_nlink;
         #[cfg(all(
-            unix,
+            any(unix, target_os = "wasi"),
             any(
                 target_vendor = "apple",
                 target_os = "android",
@@ -144,7 +143,7 @@ impl FileInformation {
     }
 }
 
-#[cfg(unix)]
+#[cfg(any(unix, target_os = "wasi"),)]
 impl PartialEq for FileInformation {
     fn eq(&self, other: &Self) -> bool {
         self.0.st_dev == other.0.st_dev && self.0.st_ino == other.0.st_ino
@@ -163,7 +162,7 @@ impl Eq for FileInformation {}
 
 impl Hash for FileInformation {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        #[cfg(unix)]
+        #[cfg(any(unix, target_os = "wasi"))]
         {
             self.0.st_dev.hash(state);
             self.0.st_ino.hash(state);

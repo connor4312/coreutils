@@ -20,7 +20,7 @@ thiserror = { workspace = true }
 is-terminal = { workspace = true }
 uucore = { workspace=true, features=["fs", "pipes"] }
 
-[target.'cfg(unix)'.dependencies]
+[target.'cfg(any(unix, target_os = "wasi"))'.dependencies]
 nix = { workspace=true }
 
 [[bin]]
