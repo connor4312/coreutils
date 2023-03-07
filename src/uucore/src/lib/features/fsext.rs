@@ -435,6 +435,10 @@ pub fn read_fs_list() -> Result<Vec<MountInfo>, std::io::Error> {
             .map(|m| MountInfo::from(*m))
             .collect::<Vec<_>>())
     }
+    #[cfg(target_os = "wasi")]
+    {
+        Ok(vec![])
+    }
     #[cfg(windows)]
     {
         let mut volume_name_buf = [0u16; MAX_PATH];
@@ -534,7 +538,7 @@ impl FsUsage {
             };
         }
     }
-    #[cfg(not(unix))]
+    #[cfg(windows)]
     pub fn new(path: &Path) -> Self {
         let mut root_path = [0u16; MAX_PATH];
         let success = unsafe {

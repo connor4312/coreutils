@@ -302,7 +302,15 @@ fn tac(filenames: &[&str], before: bool, regex: bool, separator: &str) -> UResul
 fn try_mmap_stdin() -> Option<Mmap> {
     // SAFETY: If the file is truncated while we map it, SIGBUS will be raised
     // and our process will be terminated, thus preventing access of invalid memory.
-    unsafe { Mmap::map(&stdin()).ok() }
+    #[cfg(not(target_os = "wasi"))]
+    {
+        unsafe { Mmap::map(&stdin()).ok() }
+    }
+
+    #[cfg(target_os = "wasi")]
+    {
+        None
+    }
 }
 
 fn try_mmap_path(path: &Path) -> Option<Mmap> {

@@ -340,7 +340,7 @@ dependencies = [
  "glob",
  "hex-literal",
  "is-terminal",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "nix 0.26.1",
  "once_cell",
  "phf",
@@ -2435,7 +2435,7 @@ version = "0.0.17"
 dependencies = [
  "clap",
  "fts-sys",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "selinux",
  "thiserror",
  "uucore",
@@ -2454,7 +2454,7 @@ name = "uu_chmod"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -2499,7 +2499,7 @@ dependencies = [
  "exacl",
  "filetime",
  "indicatif",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "quick-error",
  "selinux",
  "uucore",
@@ -2534,7 +2534,7 @@ version = "0.0.17"
 dependencies = [
  "chrono",
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
  "windows-sys 0.42.0",
 ]
@@ -2545,7 +2545,7 @@ version = "0.0.17"
 dependencies = [
  "clap",
  "gcd",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "signal-hook",
  "uucore",
 ]
@@ -2705,7 +2705,7 @@ name = "uu_hostid"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -2735,7 +2735,7 @@ dependencies = [
  "clap",
  "file_diff",
  "filetime",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "time",
  "uucore",
 ]
@@ -2779,7 +2779,7 @@ name = "uu_logname"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -2814,7 +2814,7 @@ name = "uu_mkfifo"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -2823,7 +2823,7 @@ name = "uu_mknod"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -2865,7 +2865,7 @@ name = "uu_nice"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "nix 0.26.1",
  "uucore",
 ]
@@ -2885,7 +2885,7 @@ version = "0.0.17"
 dependencies = [
  "clap",
  "is-terminal",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -2894,7 +2894,7 @@ name = "uu_nproc"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -2929,7 +2929,7 @@ name = "uu_pathchk"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -3015,7 +3015,7 @@ name = "uu_rm"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
  "walkdir",
  "windows-sys 0.42.0",
@@ -3026,7 +3026,7 @@ name = "uu_rmdir"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -3035,7 +3035,7 @@ name = "uu_runcon"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "selinux",
  "thiserror",
  "uucore",
@@ -3132,7 +3132,7 @@ version = "0.0.17"
 dependencies = [
  "cpp",
  "cpp_build",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -3158,7 +3158,7 @@ name = "uu_sync"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "nix 0.26.1",
  "uucore",
  "windows-sys 0.42.0",
@@ -3182,7 +3182,7 @@ dependencies = [
  "clap",
  "fundu",
  "is-terminal",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "memchr",
  "notify",
  "same-file",
@@ -3196,7 +3196,7 @@ name = "uu_tee"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
 ]
 
@@ -3205,7 +3205,7 @@ name = "uu_test"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "redox_syscall",
  "uucore",
 ]
@@ -3215,7 +3215,7 @@ name = "uu_timeout"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "nix 0.26.1",
  "uucore",
 ]
@@ -3342,7 +3342,7 @@ version = "0.0.17"
 dependencies = [
  "bytecount",
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "nix 0.26.1",
  "unicode-width",
  "utf-8",
@@ -3362,7 +3362,7 @@ name = "uu_whoami"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "uucore",
  "windows-sys 0.42.0",
 ]
@@ -3372,7 +3372,7 @@ name = "uu_yes"
 version = "0.0.17"
 dependencies = [
  "clap",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "nix 0.26.1",
  "uucore",
 ]
@@ -3392,7 +3392,7 @@ dependencies = [
  "glob",
  "hex",
  "itertools",
- "libc 0.2.139 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.139",
  "md-5",
  "memchr",
  "nix 0.26.1",

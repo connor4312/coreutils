@@ -523,6 +523,10 @@ fn pathbuf_from_stdout() -> UResult<PathBuf> {
     {
         Ok(PathBuf::from("/proc/self/fd/1"))
     }
+    #[cfg(target_os = "wasi")]
+    {
+        Err(USimpleError::new(1, "wasi stdout is unnamed".to_owned()))
+    }
     #[cfg(windows)]
     {
         use std::os::windows::prelude::AsRawHandle;

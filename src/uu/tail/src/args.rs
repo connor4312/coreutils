@@ -195,7 +195,11 @@ impl Settings {
                 Some(FollowMode::Descriptor)
             },
             retry: matches.get_flag(options::RETRY) || matches.get_flag(options::FOLLOW_RETRY),
-            use_polling: matches.get_flag(options::USE_POLLING),
+            use_polling: if cfg!(target_os = "wasi") {
+                false
+            } else {
+                matches.get_flag(options::USE_POLLING)
+            },
             mode: FilterMode::from(matches)?,
             verbose: matches.get_flag(options::verbosity::VERBOSE),
             presume_input_pipe: matches.get_flag(options::PRESUME_INPUT_PIPE),
@@ -452,7 +456,7 @@ pub fn uu_app() -> Command {
     pub static POLLING_HELP: &str =
         "Disable 'ReadDirectoryChanges' support and use polling instead";
 
-    Command::new(uucore::util_name())
+    let mut command = Command::new(uucore::util_name())
         .version(crate_version!())
         .about(ABOUT)
         .override_usage(format_usage(USAGE))
@@ -533,14 +537,6 @@ pub fn uu_app() -> Command {
                 .action(ArgAction::SetTrue),
         )
         .arg(
-            Arg::new(options::USE_POLLING)
-                .alias(options::DISABLE_INOTIFY_TERM) // NOTE: Used by GNU's test suite
-                .alias("dis") // NOTE: Used by GNU's test suite
-                .long(options::USE_POLLING)
-                .help(POLLING_HELP)
-                .action(ArgAction::SetTrue),
-        )
-        .arg(
             Arg::new(options::RETRY)
                 .long(options::RETRY)
                 .help("Keep trying to open a file if it is inaccessible")
@@ -565,7 +561,21 @@ pub fn uu_app() -> Command {
                 .action(ArgAction::Append)
                 .num_args(1..)
                 .value_hint(clap::ValueHint::FilePath),
-        )
+        );
+
+    #[cfg(any(unix, windows))]
+    {
+        command = command.arg(
+            Arg::new(options::USE_POLLING)
+                .alias(options::DISABLE_INOTIFY_TERM) // NOTE: Used by GNU's test suite
+                .alias("dis") // NOTE: Used by GNU's test suite
+                .long(options::USE_POLLING)
+                .help(POLLING_HELP)
+                .action(ArgAction::SetTrue),
+        );
+    }
+
+    command
 }
 
 #[cfg(test)]

@@ -18,6 +18,8 @@ pub static BACKEND: &str = "inotify";
 pub static BACKEND: &str = "kqueue";
 #[cfg(target_os = "windows")]
 pub static BACKEND: &str = "ReadDirectoryChanges";
+#[cfg(not(any(unix, windows)))]
+pub static BACKEND: &str = "<unknown>";
 pub static FD0: &str = "/dev/fd/0";
 pub static IS_A_DIRECTORY: &str = "Is a directory";
 pub static DEV_TTY: &str = "/dev/tty";

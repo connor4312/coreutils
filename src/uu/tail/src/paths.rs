@@ -11,6 +11,8 @@ use std::fs::{File, Metadata};
 use std::io::{Seek, SeekFrom};
 #[cfg(unix)]
 use std::os::unix::fs::{FileTypeExt, MetadataExt};
+#[cfg(target_os = "wasi")]
+use std::os::wasi::fs::MetadataExt;
 use std::path::{Path, PathBuf};
 use uucore::error::UResult;
 
@@ -175,7 +177,7 @@ impl MetadataExtTail for Metadata {
     }
 
     fn file_id_eq(&self, _other: &Metadata) -> bool {
-        #[cfg(unix)]
+        #[cfg(not(windows))]
         {
             self.ino().eq(&_other.ino())
         }

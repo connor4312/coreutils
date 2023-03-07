@@ -1,5 +1,6 @@
 #![allow(clippy::missing_safety_doc)]
 #![allow(clippy::extra_unused_lifetimes)]
+#![cfg_attr(target_os = "wasi", feature(wasi_ext))]
 
 // This file is part of the uutils coreutils package.
 //
@@ -953,7 +954,7 @@ fn parse_path_args(mut paths: Vec<Source>, options: &Options) -> CopyResult<(Vec
 
 /// Get the inode information for a file.
 fn get_inode(file_info: &FileInformation) -> u64 {
-    #[cfg(unix)]
+    #[cfg(any(unix, target_os = "wasi"))]
     let result = file_info.inode();
     #[cfg(windows)]
     let result = file_info.file_index();
@@ -1311,9 +1312,13 @@ fn symlink_file(
     context: &str,
     symlinked_files: &mut HashSet<FileInformation>,
 ) -> CopyResult<()> {
-    #[cfg(not(windows))]
+    #[cfg(unix)]
     {
         std::os::unix::fs::symlink(source, dest).context(context)?;
+    }
+    #[cfg(target_os = "wasi")]
+    {
+        std::os::wasi::fs::symlink_path(source, dest).context(context)?;
     }
     #[cfg(windows)]
     {

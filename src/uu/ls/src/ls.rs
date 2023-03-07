@@ -2322,7 +2322,7 @@ fn display_item_long(
         write!(
             out,
             "{}{} {}",
-            display_permissions(md, true),
+            display_permissions(&item.p_buf, md, true),
             if item.security_context.len() > 1 {
                 // GNU `ls` uses a "." character to indicate a file with a security context,
                 // but not other alternate access method.

@@ -1,3 +1,5 @@
+#![cfg_attr(target_os = "wasi", feature(wasi_ext))]
+
 //  * This file is part of the uutils coreutils package.
 //  *
 //  * (c) Morten Olsen Lysgaard <morten@lysgaard.no>

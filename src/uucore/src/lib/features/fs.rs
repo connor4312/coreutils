@@ -30,7 +30,7 @@ use std::path::{Component, Path, PathBuf, MAIN_SEPARATOR};
 #[cfg(target_os = "windows")]
 use winapi_util::AsHandleRef;
 
-#[cfg(unix)]
+#[cfg(any(unix, target_os = "wasi"))]
 #[macro_export]
 macro_rules! has {
     ($mode:expr, $perm:expr) => {
@@ -134,7 +134,7 @@ impl FileInformation {
         return self.0.number_of_links();
     }
 
-    #[cfg(unix)]
+    #[cfg(any(unix, target_os = "wasi"))]
     pub fn inode(&self) -> u64 {
         #[cfg(all(not(target_os = "freebsd"), target_pointer_width = "64"))]
         return self.0.st_ino;
@@ -423,7 +423,7 @@ pub fn canonicalize<P: AsRef<Path>>(
     Ok(result)
 }
 
-#[cfg(not(unix))]
+#[cfg(not(any(unix, target_os = "wasi")))]
 pub fn display_permissions(metadata: &fs::Metadata, display_file_type: bool) -> String {
     let write = if metadata.permissions().readonly() {
         '-'
@@ -449,12 +449,24 @@ pub fn display_permissions(metadata: &fs::Metadata, display_file_type: bool) -> 
 #[cfg(unix)]
 /// Display the permissions of a file
 /// On non unix like system, just show '----------'
-pub fn display_permissions(metadata: &fs::Metadata, display_file_type: bool) -> String {
+pub fn display_permissions(_path: &Path, metadata: &fs::Metadata, display_file_type: bool) -> String {
     let mode: mode_t = metadata.mode() as mode_t;
     display_permissions_unix(mode, display_file_type)
 }
 
-#[cfg(unix)]
+#[cfg(target_os = "wasi")]
+/// Display the permissions of a file
+pub fn display_permissions(path: &Path, _metadata: &fs::Metadata, display_file_type: bool) -> String {
+    // standard library doesn't expose granular permissions on WASI, and
+    // in fact metadata.permissions() is still a stub on nightly, so
+    // re-`lstat` here.
+    match nix::sys::stat::lstat(path) {
+        Ok(s) => display_permissions_unix(s.st_mode as mode_t, display_file_type),
+        Err(_) => display_permissions_unix(0, display_file_type),
+    }
+}
+
+#[cfg(any(unix, target_os = "wasi"))]
 /// Display the permissions of a file on a unix like system
 pub fn display_permissions_unix(mode: mode_t, display_file_type: bool) -> String {
     let mut result;

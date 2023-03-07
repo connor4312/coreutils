@@ -86,7 +86,7 @@ impl Filesystem {
         let _stat_path = if !mount_info.mount_dir.is_empty() {
             mount_info.mount_dir.clone()
         } else {
-            #[cfg(unix)]
+            #[cfg(not(windows))]
             {
                 mount_info.dev_name.clone()
             }

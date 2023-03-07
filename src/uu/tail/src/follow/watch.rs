@@ -476,6 +476,7 @@ pub fn follow(mut observer: Observer, settings: &Settings) -> UResult<()> {
         return Err(USimpleError::new(1, text::NO_FILES_REMAINING.to_string()));
     }
 
+    #[cfg(not(target_os = "wasi"))]
     let mut process = platform::ProcessChecker::new(observer.pid);
 
     let mut _event_counter = 0;
@@ -487,6 +488,8 @@ pub fn follow(mut observer: Observer, settings: &Settings) -> UResult<()> {
 
         // If `--pid=p`, tail checks whether process p
         // is alive at least every `--sleep-interval=N` seconds
+
+        #[cfg(not(target_os = "wasi"))]
         if settings.follow.is_some() && observer.pid != 0 && process.is_dead() {
             // p is dead, tail will also terminate
             break;

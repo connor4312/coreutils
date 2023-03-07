@@ -24,3 +24,11 @@ mod unix;
 
 #[cfg(windows)]
 mod windows;
+
+#[cfg(target_os = "wasi")]
+pub fn supports_pid_checks(_pid: Pid) -> bool {
+    false
+}
+
+#[cfg(target_os = "wasi")]
+pub type Pid = u8;

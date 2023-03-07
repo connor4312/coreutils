@@ -20,7 +20,7 @@ use std::io::ErrorKind;
 use std::iter;
 use std::path::{Path, PathBuf, MAIN_SEPARATOR};
 
-#[cfg(unix)]
+#[cfg(not(windows))]
 use std::fs;
 #[cfg(unix)]
 use std::os::unix::prelude::PermissionsExt;
@@ -499,7 +499,7 @@ fn make_temp_dir(dir: &str, prefix: &str, rand: usize, suffix: &str) -> UResult<
         Ok(d) => {
             // `into_path` consumes the TempDir without removing it
             let path = d.into_path();
-            #[cfg(not(windows))]
+            #[cfg(unix)]
             fs::set_permissions(&path, fs::Permissions::from_mode(0o700))?;
             Ok(path)
         }
